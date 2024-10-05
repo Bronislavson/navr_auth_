@@ -3,18 +3,7 @@
 use App\Services\Page;
 
 // Проверка на наличие пользователя в сессии
-if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
-    \App\Services\Router::redirect(uri:'/navr_auth/login');
-}
-
-// Получаем идентификатор пользователя из сессии
-$userId = $_SESSION['user']['id'];
-
-// Получение пользователя из базы данных
-$user = \R::findOne('users', 'id = ?', [$userId]);
-
-// Проверяем, существует ли пользователь и его группа
-if ($user && $user->group == 1) {
+if (!isset($_SESSION['user']) ?? empty($_SESSION['user']['group'] !== 2)) {
     \App\Services\Router::redirect(uri:'/navr_auth/login');
 }
 

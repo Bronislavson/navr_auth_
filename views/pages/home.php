@@ -19,9 +19,6 @@
             <a class="nav-link active me-5" href="/navr_auth/login">Login</a>
             <a class="nav-link active me-5" href="/navr_auth/register">Register</a>
             <a class="nav-link active me-5" href="/navr_auth/profile">Profile</a>
-            <form action="/navr_auth/auth/logout" method="post">
-                    <button type="submit" class="nav-link active me-5">Logout</button>
-            </form>
         </div>
     </form>
 </div>

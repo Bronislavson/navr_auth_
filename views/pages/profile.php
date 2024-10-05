@@ -1,16 +1,20 @@
 <?php
-    use App\Services\Page;
 
-    if (!isset($_SESSION['user']) || empty($_SESSION['user']['id'])) {
-        \App\Services\Router::redirect(uri:'/navr_auth/home');
-    }
-    
-    $userId = $_SESSION['user']['id'];
-    $user = \R::findOne('users', 'id = ?', [$userId]);
+use App\Services\Page;
 
-    if (!$user) {
-        die('User not found.');
-    }
+
+if (!isset($_SESSION['user']) || empty($_SESSION['user']['id'])) {
+    http_response_code(401);
+    \App\Services\Router::redirect(uri:'/navr_auth/register');
+}
+
+// Получаем идентификатор пользователя из сессии
+$userId = $_SESSION['user']['id'];
+
+// Получение пользователя из базы данных
+$user = \R::findOne('users', 'id = ?', [$userId]);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -22,9 +26,27 @@
 
 <body>
 
-<?php
-    Page::part(part_name:'navbar');
-?>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">NavrockiyAuth</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link active" href="/navr_auth/home">Home</a>
+            </div>
+        </div>
+        <div class="d-flex">
+                <a class="nav-link active me-5" href="/navr_auth/login">Login</a>
+                <a class="nav-link active me-5" href="/navr_auth/register">Register</a>
+                <a class="nav-link active me-5" href="/navr_auth/content">Content</a>
+                <form action="/navr_auth/auth/logout" method="post">
+                    <button type="submit" class="nav-link active me-5">Logout</button>
+                </form>
+        </div>
+    </div>
+</nav>
 
 <div class="container">
     <h2>PROFILE</h2>
